@@ -7,4 +7,10 @@
         <RootNamespace>Registration.Core</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="DTOs" />
+      <Folder Include="Interfaces" />
+      <Folder Include="Utils" />
+    </ItemGroup>
+
 </Project>
