@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "WebApplication1": {
+    "Registration.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
