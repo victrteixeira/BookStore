@@ -6,6 +6,6 @@ public static class EmailValidator
     {
         DomainException.When(email.Length > 100, "Email is too long.");
         DomainException.When(email.Length < 10, "Email is too short.");
-        DomainException.When(RegexValidators.EmailIsValid(email), "Email is invalid.");
+        DomainException.When(!RegexValidators.EmailIsValid(email), "Email is invalid.");
     }
 }

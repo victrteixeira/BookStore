@@ -42,7 +42,7 @@ public class User
         if (email != null)
         {
            EmailValidator.EmailIsValid(email);
-            Email = email;
+           Email = email;
         }
         
         // Age Validation
