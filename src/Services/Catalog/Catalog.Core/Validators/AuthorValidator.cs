@@ -1,37 +1,52 @@
-﻿using System.Data;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Catalog.Core.Entities;
+using Catalog.Core.Exceptions;
 using FluentValidation;
 
-namespace DefaultNamespace;
+namespace Catalog.Core.Validators;
 
 public class AuthorValidator : AbstractValidator<Author>
 {
     public AuthorValidator()
     {
-        RuleFor(name => name.Name)
+        RuleFor(firstName => firstName.FirstName)
+            .Cascade(CascadeMode.Stop)
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
             .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
             .Length(3, 50).WithMessage("{PropertyName} must be between 3 and 50 chars.")
-            .Matches(@"^[0-9a-zA-Z']{3,50}$");
+            .Matches(@"^[0-9a-zA-Z']{3,50}$", RegexOptions.IgnoreCase)
+            .WithMessage("{PropertyName} contain invalid char or are outside of range allowed.");
+        
+        RuleFor(lastname => lastname.LastName)
+            .Cascade(CascadeMode.Stop)
+            .NotNull().WithMessage("{PropertyName} is required and can not be null.")
+            .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
+            .Length(3, 50).WithMessage("{PropertyName} must be between 3 and 50 chars.")
+            .Matches(@"^[0-9a-zA-Z']{3,50}$", RegexOptions.IgnoreCase)
+            .WithMessage("{PropertyName} contain invalid char or are outside of range allowed.");
 
         RuleFor(born => born.Born)
+            .Cascade(CascadeMode.Stop)
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
             .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
-            .Length(1, 5).WithMessage("{PropertyName} must be between 1 and 5 chars.")
-            .Matches(@"^[0-9]{1,5}(?:BC|AD)?$", RegexOptions.IgnoreCase);
-        
-        RuleFor(born => born.Died)
-            .NotNull().WithMessage("{PropertyName} is required and can not be null.")
-            .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
-            .Length(1, 5).WithMessage("{PropertyName} must be between 1 and 5 chars.")
-            .Matches(@"^[0-9]{1,5}(?:BC|AD)?$", RegexOptions.IgnoreCase);
+            .Length(1, 6).WithMessage("{PropertyName} must be between 1 and 6 chars.")
+            .Matches(@"^[0-9]{1,4}(?:BC|AD)?$", RegexOptions.IgnoreCase)
+            .WithMessage("{PropertyName} are outside of range or contain invalid char.");
 
-        RuleFor(age => age.Age)
+        RuleFor(died => died.Died)
+            .Cascade(CascadeMode.Stop)
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
             .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
-            .GreaterThanOrEqualTo(18).WithMessage("{PropertyName} must be greater than or equal to eighteen")
-            .LessThanOrEqualTo(120).WithMessage("{PropertyName} must be less than or equal to one hundred and twenty");
+            .Length(1, 6).WithMessage("{PropertyName} must be between 1 and 4 chars.")
+            .Matches(@"^[0-9]{1,4}(?:BC|AD)?$", RegexOptions.IgnoreCase)
+            .WithMessage("{PropertyName} are outside of range or contain invalid char.")
+            .Custom((c, x) =>
+            {
+                var resDied = c.Length > 4 ? Convert.ToInt32(c.Substring(0, 4)) : Convert.ToInt32(c);
+                var born = x.InstanceToValidate.Born;
+                var resBorn = born.Length > 4 ? Convert.ToInt32(born.Substring(0, 4)) : Convert.ToInt32(born);
+                CatalogDomainException.When(resDied <= resBorn, "A person can not die before to born. Please insert valid dates.");
+            });
 
         RuleFor(country => country.Country)
             .Length(3, 50).WithMessage("{PropertyName} must be between 3 and 50 chars.");
