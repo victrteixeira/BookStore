@@ -23,8 +23,7 @@ public class Book : Base
 
     public int AuthorId { get; set; }
     public Author Author { get; set; } = null!;
-
-    public List<GenreBook>? Genres { get; set; }
+    public List<GenreBook> Genres { get; set; } = null!;
 
     public bool Validate() => base.Validate(new BookValidator(), this);
 }

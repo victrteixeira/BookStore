@@ -13,7 +13,7 @@ public class Author : Base
     public string? Country { get; set; }
     public string? BriefDescription { get; set; }
 
-    public List<Book>? Books { get; set; }
+    public List<Book>? Books { get; set; } = null!;
 
     public Author(string firstname, string lastName, string bornAt, string diedAt, string? country, string? briefDescription)
     {
@@ -26,20 +26,5 @@ public class Author : Base
         Validate();
     }
 
-    public Author(int authorId, string firstname, string lastname, string bornAt, string diedAt, string? country,
-        string? briefDescription)
-    {
-        CatalogDomainException.When(authorId < 0, "Invalid Id value");
-        
-        AuthorId = authorId;
-        FirstName = firstname;
-        LastName = lastname;
-        BornAt = bornAt;
-        DiedAt = diedAt;
-        Country = country;
-        BriefDescription = briefDescription;
-        Validate();
-    }
-    
     public bool Validate() => base.Validate(new AuthorValidator(), this);
 }
