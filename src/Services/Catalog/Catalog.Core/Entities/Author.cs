@@ -1,4 +1,5 @@
-﻿using Catalog.Core.Validators;
+﻿using Catalog.Core.Exceptions;
+using Catalog.Core.Validators;
 
 namespace Catalog.Core.Entities;
 
@@ -7,19 +8,34 @@ public class Author : Base
     public int AuthorId { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Born { get; set; }
-    public string Died { get; set; }
+    public string BornAt { get; set; }
+    public string DiedAt { get; set; }
     public string? Country { get; set; }
     public string? BriefDescription { get; set; }
 
     public List<Book>? Books { get; set; }
 
-    public Author(string firstname, string lastName, string born, string died, string? country, string? briefDescription)
+    public Author(string firstname, string lastName, string bornAt, string diedAt, string? country, string? briefDescription)
     {
         FirstName = firstname;
         LastName = lastName;
-        Born = born;
-        Died = died;
+        BornAt = bornAt;
+        DiedAt = diedAt;
+        Country = country;
+        BriefDescription = briefDescription;
+        Validate();
+    }
+
+    public Author(int authorId, string firstname, string lastname, string bornAt, string diedAt, string? country,
+        string? briefDescription)
+    {
+        CatalogDomainException.When(authorId < 0, "Invalid Id value");
+        
+        AuthorId = authorId;
+        FirstName = firstname;
+        LastName = lastname;
+        BornAt = bornAt;
+        DiedAt = diedAt;
         Country = country;
         BriefDescription = briefDescription;
         Validate();

@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Domain;
 
-public class DomainTests
+public class AuthorClassTests
 {
     private string _firstname = new Name().FirstName();
     private string _lastname = new Name().LastName();
@@ -10,7 +10,7 @@ public class DomainTests
     private string _desc = new Lorem().Sentence(5);
 
     private AuthorValidator _authorValidator;
-    public DomainTests()
+    public AuthorClassTests()
     {
         _authorValidator = new AuthorValidator();
     }
@@ -139,7 +139,7 @@ public class DomainTests
         };
         // Assert
         res.Should().Throw<CatalogDomainException>()
-            .WithMessage("Born are outside of range or contain invalid char.");
+            .WithMessage("Born At are outside of range or contain invalid char.");
     }
     
     #endregion

@@ -25,7 +25,7 @@ public class AuthorValidator : AbstractValidator<Author>
             .Matches(@"^[0-9a-zA-Z']{3,50}$", RegexOptions.IgnoreCase)
             .WithMessage("{PropertyName} contain invalid char or are outside of range allowed.");
 
-        RuleFor(born => born.Born)
+        RuleFor(born => born.BornAt)
             .Cascade(CascadeMode.Stop)
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
             .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
@@ -33,7 +33,7 @@ public class AuthorValidator : AbstractValidator<Author>
             .Matches(@"^[0-9]{1,4}(?:BC|AD)?$", RegexOptions.IgnoreCase)
             .WithMessage("{PropertyName} are outside of range or contain invalid char.");
 
-        RuleFor(died => died.Died)
+        RuleFor(died => died.DiedAt)
             .Cascade(CascadeMode.Stop)
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
             .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
@@ -43,7 +43,7 @@ public class AuthorValidator : AbstractValidator<Author>
             .Custom((c, x) =>
             {
                 var resDied = c.Length > 4 ? Convert.ToInt32(c.Substring(0, 4)) : Convert.ToInt32(c);
-                var born = x.InstanceToValidate.Born;
+                var born = x.InstanceToValidate.BornAt;
                 var resBorn = born.Length > 4 ? Convert.ToInt32(born.Substring(0, 4)) : Convert.ToInt32(born);
                 CatalogDomainException.When(resDied <= resBorn, "A person can not die before to born. Please insert valid dates.");
             });
