@@ -7,12 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="DTOs" />
-      <Folder Include="Interfaces" />
+      <PackageReference Include="FluentValidation" Version="11.2.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation" Version="11.2.2" />
+      <Compile Remove="DTOs\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="DTOs\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="DTOs\**" />
     </ItemGroup>
 
 </Project>

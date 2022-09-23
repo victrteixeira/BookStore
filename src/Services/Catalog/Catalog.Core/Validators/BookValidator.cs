@@ -1,4 +1,5 @@
-﻿using Catalog.Core.Entities;
+﻿using System.Text.RegularExpressions;
+using Catalog.Core.Entities;
 using FluentValidation;
 
 namespace DefaultNamespace;
@@ -11,7 +12,7 @@ public class BookValidator : AbstractValidator<Book>
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
             .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
             .Length(3, 150).WithMessage("{PropertyName} must be between 3 and 150 chars.")
-            .Matches(@"^[0-9a-zA-Z']{3,50}$");
+            .Matches(@"^[0-9a-zA-Z']{3,50}$", RegexOptions.IgnoreCase);
 
         RuleFor(pages => pages.Pages)
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
