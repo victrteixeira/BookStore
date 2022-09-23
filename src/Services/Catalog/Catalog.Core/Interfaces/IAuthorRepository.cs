@@ -4,5 +4,5 @@ namespace Catalog.Core.Interfaces;
 
 public interface IAuthorRepository : IBaseRepository<Author>
 {
-    Task<Author> GetAuthorByName(string firstName, string lastName);
+    Task<Author?> GetAuthorByName(string firstName, string lastName);
 }

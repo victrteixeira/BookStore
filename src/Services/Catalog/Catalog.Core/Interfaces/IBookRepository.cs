@@ -4,7 +4,7 @@ namespace Catalog.Core.Interfaces;
 
 public interface IBookRepository : IBaseRepository<Book>
 {
-    Task<Book> GetBookByName(string bookName);
+    Task<Book?> GetBookByName(string bookName);
     Task<IEnumerable<Book>> GetBooksByPrice(decimal price);
     Task<IEnumerable<Book>> GetBooksByPriceAndLanguage(string language, decimal price);
     Task<IEnumerable<Book>> GetBooksByPublisher(string publisher);
