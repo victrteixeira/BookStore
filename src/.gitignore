@@ -699,5 +699,7 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 
 # End of https://www.toptal.com/developers/gitignore/api/rider,csharp,intellij,jetbrains+all,jetbrains. i d e a 
+
+Services/Catalog/Catalog.Core/.idea/
  
  
