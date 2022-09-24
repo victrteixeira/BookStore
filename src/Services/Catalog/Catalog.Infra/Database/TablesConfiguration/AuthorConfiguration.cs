@@ -40,7 +40,7 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .HasColumnOrder(4);
         
         builder.Property(p => p.Country)
-            .HasMaxLength(50)
+            .HasMaxLength(60)
             .HasColumnName("Country")
             .HasColumnOrder(5);
         

@@ -49,7 +49,7 @@ public class AuthorValidator : AbstractValidator<Author>
             });
 
         RuleFor(country => country.Country)
-            .Length(3, 50).WithMessage("{PropertyName} must be between 3 and 50 chars.");
+            .Length(3, 60).WithMessage("{PropertyName} must be between 3 and 60 chars.");
         
         RuleFor(desc => desc.BriefDescription)
             .Length(3, 100).WithMessage("{PropertyName} must be between 3 and 100 chars.");

@@ -13,9 +13,9 @@ public class CatalogContext : DbContext
     {
     }
     
-    public DbSet<Author> Authors { get; set; } = null!;
-    public DbSet<Book> Books { get; set; } = null!;
-    public DbSet<Genre> Genres { get; set; } = null!;
+    public virtual DbSet<Author> Authors { get; set; } = null!;
+    public virtual DbSet<Book> Books { get; set; } = null!;
+    public virtual DbSet<Genre> Genres { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
