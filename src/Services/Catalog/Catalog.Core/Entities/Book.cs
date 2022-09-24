@@ -2,7 +2,7 @@
 
 namespace Catalog.Core.Entities;
 
-public class Book : Base
+public sealed class Book : Base
 {
     public Book(string name, int pages, decimal price, string language, string? publisher)
     {
@@ -14,12 +14,12 @@ public class Book : Base
         Validate();
     }
 
-    public int BookId { get; set; }
-    public string Name { get; set; }
-    public int Pages { get; set; }
-    public decimal Price { get; set; }
-    public string Language { get; set; }
-    public string? Publisher { get; set; }
+    public int BookId { get; private set; }
+    public string Name { get; private set; }
+    public int Pages { get; private set; }
+    public decimal Price { get; private set; }
+    public string Language { get; private set; }
+    public string? Publisher { get; private set; }
 
     public int AuthorId { get; set; }
     public Author Author { get; set; } = null!;

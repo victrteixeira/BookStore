@@ -3,15 +3,15 @@ using Catalog.Core.Validators;
 
 namespace Catalog.Core.Entities;
 
-public class Author : Base
+public sealed class Author : Base
 {
-    public int AuthorId { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string BornAt { get; set; }
-    public string DiedAt { get; set; }
-    public string? Country { get; set; }
-    public string? BriefDescription { get; set; }
+    public int AuthorId { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public string BornAt { get; private set; }
+    public string DiedAt { get; private set; }
+    public string? Country { get; private set; }
+    public string? BriefDescription { get; private set; }
 
     public List<Book>? Books { get; set; } = null!;
 

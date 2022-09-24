@@ -2,7 +2,7 @@
 
 namespace Catalog.Core.Entities;
 
-public class Genre : Base
+public sealed class Genre : Base
 {
     public Genre(string? name, string? subGenre, Type? type, string? briefDescription)
     {
@@ -13,11 +13,11 @@ public class Genre : Base
         Validate();
     }
 
-    public int GenreId { get; set; }
-    public string? Name { get; set; } // Philosophy
-    public string? SubGenre { get; set; } // Epistemology
-    public Type? Type { get; set; } // NonFiction
-    public string? BriefDescription { get; set; } // Studies about knowledge.
+    public int GenreId { get; private set; }
+    public string? Name { get; private set; } // Philosophy
+    public string? SubGenre { get; private set; } // Epistemology
+    public Type? Type { get; private set; } // NonFiction
+    public string? BriefDescription { get; private set; } // Studies about knowledge.
 
     public List<GenreBook>? Books { get; set; }
 
