@@ -1,0 +1,11 @@
+global using Xunit;
+global using Bogus.DataSets;
+global using Catalog.Core.Entities;
+global using Catalog.Core.Interfaces;
+global using Catalog.Infra.Database;
+global using Catalog.Infra.Repositories;
+global using FluentAssertions;
+global using Infra.Tests.Fixtures;
+global using Microsoft.EntityFrameworkCore;
+global using MockQueryable.Moq;
+global using Moq;
