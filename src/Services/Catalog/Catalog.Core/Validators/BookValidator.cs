@@ -11,8 +11,7 @@ public class BookValidator : AbstractValidator<Book>
         RuleFor(name => name.Name)
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
             .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
-            .Length(3, 150).WithMessage("{PropertyName} must be between 3 and 150 chars.")
-            .Matches(@"^[0-9a-zA-Z']{3,50}$", RegexOptions.IgnoreCase);
+            .Length(3, 150).WithMessage("{PropertyName} must be between 3 and 150 chars.");
 
         RuleFor(pages => pages.Pages)
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
@@ -26,7 +25,7 @@ public class BookValidator : AbstractValidator<Book>
             .ScalePrecision(2, 6)
             .WithMessage("{PropertyName} are outside of scale precision")
             .GreaterThanOrEqualTo(0.5m).WithMessage("{PropertyName} must be greater than or equal to 0.5")
-            .LessThanOrEqualTo(999999m)
+            .LessThanOrEqualTo(999999.99m)
             .WithMessage("{PropertyName} is required and must be less than or equal to nine hundred ninety nine thousand nine hundred ninety nine (999999");
 
         RuleFor(language => language.Language)
