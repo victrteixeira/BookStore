@@ -16,6 +16,7 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
             .HasColumnOrder(0);
         
         builder.Property(p => p.Name)
+            .IsRequired()
             .HasColumnName("Genre_Name")
             .HasMaxLength(60)
             .HasColumnOrder(1);
@@ -24,11 +25,6 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
             .HasColumnName("SubGenre")
             .HasMaxLength(60)
             .HasColumnOrder(2);
-        
-        builder.Property(p => p.Type)
-            .HasColumnName("Genre_Type")
-            .HasColumnType("VARCHAR(15)")
-            .HasColumnOrder(3); // TODO > Don't forget to parse this enum in automapper
         
         builder.Property(p => p.BriefDescription)
             .HasColumnName("Brief_Description")

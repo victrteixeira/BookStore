@@ -18,13 +18,13 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
         builder.Property(p => p.FirstName)
             .IsRequired()
             .HasMaxLength(50)
-            .HasColumnName("FirstName")
+            .HasColumnName("First_Name")
             .HasColumnOrder(1);
         
         builder.Property(p => p.LastName)
             .IsRequired()
             .HasMaxLength(50)
-            .HasColumnName("LastName")
+            .HasColumnName("Last_Name")
             .HasColumnOrder(2);
 
         builder.Property(p => p.BornAt)
