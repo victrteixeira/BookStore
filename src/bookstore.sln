@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Infra", "Services\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Tests", "Tests\Catalog.Tests\Infra.Tests\Infra.Tests.csproj", "{E44C6677-5BDD-4982-A919-BE70495C567D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.IoC", "Services\Catalog\Catalog.IoC\Catalog.IoC.csproj", "{E32D79B3-2BA0-4A97-97C6-60659589CE6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,7 @@ Global
 		{F242B5C7-995A-418D-A817-E666599153C8} = {69E02CD6-9E91-42E0-B176-BCB896797981}
 		{6820DA1B-5CA0-43E7-935D-904E26451AA3} = {680F1318-B55D-4C2F-B3F4-85E5DAA5AC29}
 		{E44C6677-5BDD-4982-A919-BE70495C567D} = {69E02CD6-9E91-42E0-B176-BCB896797981}
+		{E32D79B3-2BA0-4A97-97C6-60659589CE6F} = {680F1318-B55D-4C2F-B3F4-85E5DAA5AC29}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0046232C-1A83-464F-B5D8-BDD50F661BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -100,5 +103,9 @@ Global
 		{E44C6677-5BDD-4982-A919-BE70495C567D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E44C6677-5BDD-4982-A919-BE70495C567D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E44C6677-5BDD-4982-A919-BE70495C567D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E32D79B3-2BA0-4A97-97C6-60659589CE6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E32D79B3-2BA0-4A97-97C6-60659589CE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E32D79B3-2BA0-4A97-97C6-60659589CE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E32D79B3-2BA0-4A97-97C6-60659589CE6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
