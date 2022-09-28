@@ -35,11 +35,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : Base
         return await _context.SaveChangesAsync();
     }
 
-    public virtual async Task<T?> GetById(int id)
-    {
-        var res = await _context.Set<T>().FindAsync(id);
-        return res ?? null;
-    }
+    public virtual async Task<T?> GetById(int id) => await _context.Set<T>().FindAsync(id) ?? null;
 
     public virtual async Task<IEnumerable<T>> GetAll() => await _context.Set<T>().AsNoTracking().ToListAsync();
 }
