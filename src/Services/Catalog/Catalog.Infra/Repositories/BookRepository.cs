@@ -59,7 +59,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
     {
         return await _context.Books
             .AsNoTracking()
-            .Where(p => p.Publisher.ToLower() == publisher.Trim().ToLower())
+            .Where(p => p.Publisher != null && p.Publisher.ToLower() == publisher.Trim().ToLower())
             .ToListAsync();
     }
 
