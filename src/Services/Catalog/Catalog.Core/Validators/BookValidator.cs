@@ -1,8 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Catalog.Core.Entities;
+﻿using Catalog.Core.Entities;
 using FluentValidation;
 
-namespace DefaultNamespace;
+namespace Catalog.Core.Validators;
 
 public class BookValidator : AbstractValidator<Book>
 {

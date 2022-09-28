@@ -15,9 +15,9 @@ public sealed class Author : Base
 
     public List<Book>? Books { get; set; } = null!;
 
-    public Author(string firstname, string lastName, string bornAt, string diedAt, string? country, string? briefDescription)
+    public Author(string firstName, string lastName, string bornAt, string diedAt, string? country, string? briefDescription)
     {
-        FirstName = firstname;
+        FirstName = firstName;
         LastName = lastName;
         BornAt = bornAt;
         DiedAt = diedAt;

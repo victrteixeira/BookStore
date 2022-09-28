@@ -1,4 +1,4 @@
-﻿using DefaultNamespace;
+﻿using Catalog.Core.Validators;
 
 namespace Catalog.Core.Entities;
 
