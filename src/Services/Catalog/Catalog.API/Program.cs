@@ -23,3 +23,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+// TODO > Database Migration

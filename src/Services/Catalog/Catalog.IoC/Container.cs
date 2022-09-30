@@ -1,5 +1,6 @@
 ﻿using Catalog.Core.Interfaces;
 using Catalog.Infra.Database;
+using Catalog.Infra.Interfaces;
 using Catalog.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,12 @@ public static class Container
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IRedisCacheRepository, RedisCacheRepository>();
+        services.AddStackExchangeRedisCache(opt =>
+        {
+            opt.Configuration = configuration["CacheSettings:ConnectionString"];
+        });
+        
 
         return services;
     }
