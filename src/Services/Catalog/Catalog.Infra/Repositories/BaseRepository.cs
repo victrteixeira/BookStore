@@ -29,8 +29,12 @@ public class BaseRepository<T> : IBaseRepository<T> where T : Base
         return entity;
     }
 
-    public virtual async Task<int> Remove(T entity)
+    public virtual async Task<int> Remove(int id)
     {
+        var entity = await GetById(id);
+        if (entity is null)
+            return 0;
+        
         _context.Set<T>().Remove(entity);
         return await _context.SaveChangesAsync();
     }
