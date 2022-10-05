@@ -129,5 +129,5 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
 
         await _redisCache.SetAsync(Constants.BookRepoKeys[6], res);
         return res;
-    }
+    } // TODO > To verify this query with Genre Class integration after.
 }

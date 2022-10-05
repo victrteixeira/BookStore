@@ -45,7 +45,7 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .HasColumnOrder(5);
         
         builder.Property(p => p.BriefDescription)
-            .HasMaxLength(50)
+            .HasMaxLength(100)
             .HasColumnName("Brief_Description")
             .HasColumnOrder(6);
 
