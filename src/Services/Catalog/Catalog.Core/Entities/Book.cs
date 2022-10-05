@@ -11,6 +11,19 @@ public sealed class Book : Base
         Price = price;
         Language = language;
         Publisher = publisher;
+        Genres = new List<GenreBook>();
+        Validate();
+    }
+    
+    public Book(string name, int pages, decimal price, string language, string? publisher, int authorId)
+    {
+        Name = name;
+        Pages = pages;
+        Price = price;
+        Language = language;
+        Publisher = publisher;
+        AuthorId = authorId;
+        Genres = new List<GenreBook>();
         Validate();
     }
 

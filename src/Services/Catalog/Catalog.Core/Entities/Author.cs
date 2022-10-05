@@ -23,6 +23,7 @@ public sealed class Author : Base
         DiedAt = diedAt;
         Country = country;
         BriefDescription = briefDescription;
+        Books = new List<Book>();
         Validate();
     }
 
