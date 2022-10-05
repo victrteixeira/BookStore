@@ -1,7 +1,10 @@
-﻿using Catalog.Core.Interfaces;
+﻿using Catalog.Application.AutoMapper;
+using Catalog.Application.Features.AuthorFeatures.Queries;
+using Catalog.Core.Interfaces;
 using Catalog.Infra.Database;
 using Catalog.Infra.Interfaces;
 using Catalog.Infra.Repositories;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,12 +21,20 @@ public static class Container
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IGenreRepository, GenreRepository>();
         services.AddScoped<IRedisCacheRepository, RedisCacheRepository>();
         services.AddStackExchangeRedisCache(opt =>
         {
             opt.Configuration = configuration["CacheSettings:ConnectionString"];
         });
         
+        return services;
+    }
+
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        services.AddMediatR(typeof(GetAllAuthorsQuery));
+        services.AddAutoMapper(typeof(AuthorMappers));
 
         return services;
     }
