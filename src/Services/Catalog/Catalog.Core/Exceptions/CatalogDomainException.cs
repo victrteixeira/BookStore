@@ -1,26 +1,26 @@
 ﻿namespace Catalog.Core.Exceptions;
 
-public class CatalogDomainException : Exception
+public class DomainException : Exception
 {
-    public CatalogDomainException() : base()
+    public DomainException() : base()
     {
     }
 
-    public CatalogDomainException(string? message) : base(message)
+    public DomainException(string? message) : base(message)
     {
     }
 
-    public CatalogDomainException(string? message, Exception? inner) : base(message, inner)
+    public DomainException(string? message, Exception? inner) : base(message, inner)
     {
     }
 
-    public CatalogDomainException(string? message, string? paramName) : base(message)
+    public DomainException(string? message, string? paramName) : base(message)
     {
     }
 
     public static void When(bool hasError, string errorMessage)
     {
         if (hasError)
-            throw new CatalogDomainException(errorMessage);
+            throw new DomainException(errorMessage);
     }
 }

@@ -36,7 +36,7 @@ public abstract class Base
         if (validation.Errors.Any())
         {
             AddErrorList(validation.Errors);
-            throw new CatalogDomainException(ErrorsToString());
+            throw new DomainException(ErrorsToString());
         }
 
         return IsValid();

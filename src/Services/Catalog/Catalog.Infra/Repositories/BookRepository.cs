@@ -29,7 +29,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<Book>> GetBooksByPrice(decimal price)
+    public async Task<IReadOnlyCollection<Book>> GetBooksByPrice(decimal price)
     {
         return await _context.Books
             .AsNoTracking()
@@ -37,7 +37,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Book>> GetBooksByPriceAndLanguage(string language, decimal price)
+    public async Task<IReadOnlyCollection<Book>> GetBooksByPriceAndLanguage(string language, decimal price)
     {
         return await _context.Books
             .AsNoTracking()
@@ -47,7 +47,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Book>> GetBooksByPublisher(string publisher)
+    public async Task<IReadOnlyCollection<Book>> GetBooksByPublisher(string publisher)
     {
         return await _context.Books
             .AsNoTracking()
@@ -55,7 +55,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Book>> GetBooksByAuthor(int authorId)
+    public async Task<IReadOnlyCollection<Book>> GetBooksByAuthor(int authorId)
     {
         return await _context.Books
             .AsNoTracking()
@@ -63,12 +63,13 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Book>?> GetBooksByGenre(string genreName)
+    public async Task<IReadOnlyCollection<Book>?> GetBooksByGenre(string genreName)
     {
+        // TODO > To verify this query with Genre Class integration after.
         return await _context.Books
             .AsNoTracking()
             .Where(x => x.Genres.Any(c => c.Genre != null &&
                                           c.Genre.Name.ToLower() == genreName.Trim().ToLower()))
             .ToListAsync();
-    } // TODO > To verify this query with Genre Class integration after.
+    } 
 }

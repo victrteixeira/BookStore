@@ -45,7 +45,7 @@ public class AuthorValidator : AbstractValidator<Author>
                 var resDied = c.Length > 4 ? Convert.ToInt32(c.Substring(0, 4)) : Convert.ToInt32(c);
                 var born = x.InstanceToValidate.BornAt;
                 var resBorn = born.Length > 4 ? Convert.ToInt32(born.Substring(0, 4)) : Convert.ToInt32(born);
-                CatalogDomainException.When(resDied <= resBorn, "A person can not die before to born. Please insert valid dates.");
+                DomainException.When(resDied <= resBorn, "A person can not die before to born. Please insert valid dates.");
             });
 
         RuleFor(country => country.Country)

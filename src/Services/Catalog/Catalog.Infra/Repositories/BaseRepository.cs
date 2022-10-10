@@ -41,5 +41,5 @@ public class BaseRepository<T> : IBaseRepository<T> where T : Base
 
     public virtual async Task<T?> GetById(int id) => await _context.Set<T>().FindAsync(id) ?? null;
 
-    public virtual async Task<IEnumerable<T>> GetAll() => await _context.Set<T>().AsNoTracking().ToListAsync();
+    public virtual async Task<IReadOnlyCollection<T>> GetAll() => await _context.Set<T>().AsNoTracking().ToListAsync();
 }

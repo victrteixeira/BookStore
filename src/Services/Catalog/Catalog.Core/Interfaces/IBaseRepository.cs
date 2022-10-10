@@ -8,5 +8,5 @@ public interface IBaseRepository<T> where T : Base
     Task<T?> Update(T entity, object key);
     Task<int> Remove(int id);
     Task<T?> GetById(int id);
-    Task<IEnumerable<T>> GetAll();
+    Task<IReadOnlyCollection<T>> GetAll();
 }
