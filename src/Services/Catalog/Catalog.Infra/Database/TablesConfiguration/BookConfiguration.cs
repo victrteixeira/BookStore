@@ -42,5 +42,9 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
             .HasMaxLength(50)
             .HasColumnName("Publisher")
             .HasColumnOrder(5);
+
+        builder.HasOne(a => a.Genre)
+            .WithMany(b => b.Books)
+            .HasForeignKey(fr => fr.GenreId);
     }
 }

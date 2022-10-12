@@ -13,7 +13,7 @@ public sealed class Author : Base
     public string? Country { get; private set; }
     public string? BriefDescription { get; private set; }
 
-    public List<Book>? Books { get; set; } = null!;
+    public List<Book>? Books { get; set; }
 
     public Author(string firstName, string lastName, string bornAt, string diedAt, string? country, string? briefDescription)
     {

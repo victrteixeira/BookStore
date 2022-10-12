@@ -11,7 +11,6 @@ public sealed class Book : Base
         Price = price;
         Language = language;
         Publisher = publisher;
-        Genres = new List<GenreBook>();
         Validate();
     }
     
@@ -23,7 +22,6 @@ public sealed class Book : Base
         Language = language;
         Publisher = publisher;
         AuthorId = authorId;
-        Genres = new List<GenreBook>();
         Validate();
     }
 
@@ -36,7 +34,9 @@ public sealed class Book : Base
 
     public int AuthorId { get; set; }
     public Author Author { get; set; } = null!;
-    public List<GenreBook> Genres { get; set; } = null!;
+    
+    public int GenreId { get; set; }
+    public Genre Genre { get; set; } = null!;
 
     public bool Validate() => base.Validate(new BookValidator(), this);
 }

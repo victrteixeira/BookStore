@@ -14,10 +14,9 @@ public sealed class Genre : Base
 
     public int GenreId { get; private set; }
     public string Name { get; private set; }
-    public string? SubGenre { get; private set; } // Epistemology
-    public string? BriefDescription { get; private set; } // Studies about knowledge.
+    public string? SubGenre { get; private set; }
+    public string? BriefDescription { get; private set; }
 
-    public List<GenreBook>? Books { get; set; }
-
+    public List<Book>? Books { get; set; }
     public bool Validate() => base.Validate(new GenreValidator(), this);
 }

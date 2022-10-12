@@ -30,5 +30,9 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
             .HasColumnName("Brief_Description")
             .HasMaxLength(100)
             .HasColumnOrder(4);
+
+        builder.HasMany(a => a.Books)
+            .WithOne(b => b.Genre)
+            .HasForeignKey(fr => fr.GenreId);
     }
 }
