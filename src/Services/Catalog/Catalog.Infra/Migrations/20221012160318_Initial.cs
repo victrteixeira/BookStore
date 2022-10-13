@@ -4,7 +4,7 @@
 
 namespace Catalog.Infra.Migrations
 {
-    public partial class InitDatabase : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,7 @@ namespace Catalog.Infra.Migrations
                     Born_At = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Died_At = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
-                    Brief_Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Brief_Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,7 +34,8 @@ namespace Catalog.Infra.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Genre_Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     SubGenre = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
-                    Brief_Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    Brief_Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    BookId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +53,8 @@ namespace Catalog.Infra.Migrations
                     Price = table.Column<decimal>(type: "decimal(6,2)", precision: 6, scale: 2, nullable: false),
                     Language = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Publisher = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    GenreId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,26 +65,8 @@ namespace Catalog.Infra.Migrations
                         principalTable: "Authors",
                         principalColumn: "Author_Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GenreBook",
-                columns: table => new
-                {
-                    GenreId = table.Column<int>(type: "int", nullable: false),
-                    BookId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GenreBook", x => new { x.BookId, x.GenreId });
                     table.ForeignKey(
-                        name: "FK_GenreBook_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "Book_Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GenreBook_Genres_GenreId",
+                        name: "FK_Books_Genres_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Genre_Id",
@@ -95,24 +79,22 @@ namespace Catalog.Infra.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GenreBook_GenreId",
-                table: "GenreBook",
-                column: "GenreId");
+                name: "IX_Books_GenreId",
+                table: "Books",
+                column: "GenreId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GenreBook");
-
-            migrationBuilder.DropTable(
                 name: "Books");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "Authors");
 
             migrationBuilder.DropTable(
-                name: "Authors");
+                name: "Genres");
         }
     }
 }

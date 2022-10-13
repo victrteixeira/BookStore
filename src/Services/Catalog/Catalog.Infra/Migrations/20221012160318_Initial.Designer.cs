@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Catalog.Infra.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20220928195642_InitDatabase")]
-    partial class InitDatabase
+    [Migration("20221012160318_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,8 +41,8 @@ namespace Catalog.Infra.Migrations
                         .HasColumnOrder(3);
 
                     b.Property<string>("BriefDescription")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("Brief_Description")
                         .HasColumnOrder(6);
 
@@ -91,6 +91,9 @@ namespace Catalog.Infra.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -126,6 +129,9 @@ namespace Catalog.Infra.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("GenreId")
+                        .IsUnique();
+
                     b.ToTable("Books");
                 });
 
@@ -138,6 +144,9 @@ namespace Catalog.Infra.Migrations
                         .HasColumnOrder(0);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GenreId"), 1L, 1);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
 
                     b.Property<string>("BriefDescription")
                         .HasMaxLength(100)
@@ -163,21 +172,6 @@ namespace Catalog.Infra.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("Catalog.Core.Entities.GenreBook", b =>
-                {
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookId", "GenreId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("GenreBook");
-                });
-
             modelBuilder.Entity("Catalog.Core.Entities.Book", b =>
                 {
                     b.HasOne("Catalog.Core.Entities.Author", "Author")
@@ -186,24 +180,13 @@ namespace Catalog.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("Catalog.Core.Entities.GenreBook", b =>
-                {
-                    b.HasOne("Catalog.Core.Entities.Book", "Book")
-                        .WithMany("Genres")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Catalog.Core.Entities.Genre", "Genre")
-                        .WithMany("Books")
-                        .HasForeignKey("GenreId")
+                        .WithOne("Book")
+                        .HasForeignKey("Catalog.Core.Entities.Book", "GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Book");
+                    b.Navigation("Author");
 
                     b.Navigation("Genre");
                 });
@@ -213,14 +196,10 @@ namespace Catalog.Infra.Migrations
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("Catalog.Core.Entities.Book", b =>
-                {
-                    b.Navigation("Genres");
-                });
-
             modelBuilder.Entity("Catalog.Core.Entities.Genre", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("Book")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Catalog.Infra.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20221005202950_AuthorDescription")]
-    partial class AuthorDescription
+    [Migration("20221013215303_GenreUpdate")]
+    partial class GenreUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,6 +91,9 @@ namespace Catalog.Infra.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -126,6 +129,8 @@ namespace Catalog.Infra.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("GenreId");
+
                     b.ToTable("Books");
                 });
 
@@ -153,6 +158,7 @@ namespace Catalog.Infra.Migrations
                         .HasColumnOrder(1);
 
                     b.Property<string>("SubGenre")
+                        .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)")
                         .HasColumnName("SubGenre")
@@ -163,37 +169,11 @@ namespace Catalog.Infra.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("Catalog.Core.Entities.GenreBook", b =>
-                {
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookId", "GenreId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("GenreBook");
-                });
-
             modelBuilder.Entity("Catalog.Core.Entities.Book", b =>
                 {
                     b.HasOne("Catalog.Core.Entities.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("Catalog.Core.Entities.GenreBook", b =>
-                {
-                    b.HasOne("Catalog.Core.Entities.Book", "Book")
-                        .WithMany("Genres")
-                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -203,7 +183,7 @@ namespace Catalog.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Book");
+                    b.Navigation("Author");
 
                     b.Navigation("Genre");
                 });
@@ -211,11 +191,6 @@ namespace Catalog.Infra.Migrations
             modelBuilder.Entity("Catalog.Core.Entities.Author", b =>
                 {
                     b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("Catalog.Core.Entities.Book", b =>
-                {
-                    b.Navigation("Genres");
                 });
 
             modelBuilder.Entity("Catalog.Core.Entities.Genre", b =>

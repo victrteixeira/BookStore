@@ -22,6 +22,7 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
             .HasColumnOrder(1);
 
         builder.Property(p => p.SubGenre)
+            .IsRequired()
             .HasColumnName("SubGenre")
             .HasMaxLength(60)
             .HasColumnOrder(2);
