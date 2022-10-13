@@ -10,16 +10,4 @@
       <PackageReference Include="FluentValidation" Version="11.2.2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="DTOs\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="DTOs\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="DTOs\**" />
-    </ItemGroup>
-
 </Project>

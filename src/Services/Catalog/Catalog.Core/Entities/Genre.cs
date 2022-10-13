@@ -9,6 +9,7 @@ public sealed class Genre : Base
         Name = name;
         SubGenre = subGenre;
         BriefDescription = briefDescription;
+        Books = new List<Book>();
         Validate();
     }
 
