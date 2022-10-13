@@ -1,5 +1,6 @@
-﻿using Catalog.Application.AutoMapper;
-using Catalog.Application.Features.AuthorFeatures.Queries;
+﻿using System.Reflection;
+using Catalog.Application.AutoMapper;
+using Catalog.Application.Commands.Create;
 using Catalog.Core.Interfaces;
 using Catalog.Infra.Database;
 using Catalog.Infra.Repositories;
@@ -27,7 +28,7 @@ public static class Container
 
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(typeof(GetAllAuthorsQuery));
+        services.AddMediatR(typeof(CreateBookCommandHandler).Assembly);
         services.AddAutoMapper(typeof(AuthorMappers));
 
         return services;
