@@ -8,15 +8,14 @@ namespace Catalog.Infra.Repositories;
 public class BookRepository : BaseRepository<Book>, IBookRepository
 {
     private readonly CatalogContext _context;
-    public BookRepository(CatalogContext context) : base(context)
-    {
-        _context = context;
-    }
-
+    public BookRepository(CatalogContext context) : base(context) => _context = context;
+    
     public async Task<Book?> GetBookById(int id)
     {
         return await _context.Books
             .AsNoTracking()
+            .Include(a => a.Author)
+            .Include(b => b.Genre)
             .Where(i => i.BookId == id)
             .FirstOrDefaultAsync();
     }
@@ -25,6 +24,8 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
     {
         return await _context.Books
             .AsNoTracking()
+            .Include(a => a.Author)
+            .Include(b => b.Genre)
             .Where(b => b.Name.ToLower() == bookName.Trim().ToLower())
             .FirstOrDefaultAsync();
     }
@@ -33,17 +34,19 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
     {
         return await _context.Books
             .AsNoTracking()
+            .Include(a => a.Author)
+            .Include(b => b.Genre)
             .Where(n => n.Price == price)
             .ToListAsync();
     }
 
-    public async Task<IReadOnlyCollection<Book>> GetBooksByPriceAndLanguage(string language, decimal price)
+    public async Task<IReadOnlyCollection<Book>> GetBooksByLanguage(string language)
     {
         return await _context.Books
             .AsNoTracking()
-            .Where(n =>
-                n.Language.ToLower() == language.Trim().ToLower() &&
-                n.Price == price)
+            .Include(a => a.Author)
+            .Include(b => b.Genre)
+            .Where(n => n.Language.ToLower() == language.Trim().ToLower())
             .ToListAsync();
     }
 
@@ -51,25 +54,33 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
     {
         return await _context.Books
             .AsNoTracking()
+            .Include(a => a.Author)
+            .Include(b => b.Genre)
             .Where(p => p.Publisher != null && p.Publisher.ToLower() == publisher.Trim().ToLower())
             .ToListAsync();
+        
+        // TODO > Change this query to "Contains" rather than equal comparison
     }
 
     public async Task<IReadOnlyCollection<Book>> GetBooksByAuthor(int authorId)
     {
         return await _context.Books
             .AsNoTracking()
+            .Include(a => a.Author)
+            .Include(b => b.Genre)
             .Where(i => i.AuthorId == authorId)
             .ToListAsync();
     }
 
     public async Task<IReadOnlyCollection<Book>?> GetBooksByGenre(string genreName)
     {
-        // TODO > To verify this query with Genre Class integration after.
         return await _context.Books
             .AsNoTracking()
-            .Where(x => x.Genres.Any(c => c.Genre != null &&
-                                          c.Genre.Name.ToLower() == genreName.Trim().ToLower()))
+            .Include(a => a.Author)
+            .Include(b => b.Genre)
+            .Where(g => g.Genre.Name.ToLower() == genreName.Trim().ToLower())
             .ToListAsync();
+        
+        // TODO > Change this query to "Contains" rather than equal comparison
     } 
 }
