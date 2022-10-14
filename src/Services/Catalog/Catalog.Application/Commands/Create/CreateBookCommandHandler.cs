@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Catalog.Application.Responses;
 using Catalog.Application.Responses.ForBook;
 using Catalog.Core.Entities;
 using Catalog.Core.Interfaces;
@@ -7,7 +6,7 @@ using MediatR;
 
 namespace Catalog.Application.Commands.Create;
 
-public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, BookResponse>
+public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, CreateBookCommand>
 {
     private readonly IBookRepository _bookRepository;
     private readonly IGenreRepository _genreRepository;
@@ -20,23 +19,27 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, BookR
         _mapper = mapper;
     }
 
-    public async Task<BookResponse> Handle(CreateBookCommand request, CancellationToken cancellationToken)
+    public async Task<CreateBookCommand> Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
-        var newGenre = new Genre(request.Genre.Genre, request.Genre.SubGenre, request.Genre.BriefDescription);
-        var book = _mapper.Map<Book>(request);
-
-        var genreForBook = new GenreBook();
-
-        genreForBook.Book = book;
-        genreForBook.Genre = newGenre;
-
-        book.Genres.Add(genreForBook);
-
-        await _genreRepository.Add(newGenre);
+        var checkGenre = await _genreRepository.GetGenre(request.Genre.Name, request.Genre.SubGenre);
         
+        if (checkGenre == null)
+        {
+            var newGenre = new Genre(request.Genre.Name, request.Genre.SubGenre, request.Genre.BriefDescription);
+            var genre = await _genreRepository.Add(newGenre);
+            
+            var bookOutIf = _mapper.Map<Book>(request);
+            bookOutIf.UpdateGenreId(genre.GenreId);
+            
+            await _bookRepository.Add(bookOutIf);
+
+            return request;
+        }
         
-        var newBook = await _bookRepository.Add(book);
-        return _mapper.Map<BookResponse>(newBook);
+        var iBook = _mapper.Map<Book>(request);
+        iBook.UpdateGenreId(checkGenre.GenreId);
+        
+        await _bookRepository.Add(iBook);
+        return request;
     }
 }
-// TODO > Implement to create book with already created genre, passing as parameter GenreId to map between them.
