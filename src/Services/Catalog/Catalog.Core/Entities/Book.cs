@@ -42,21 +42,19 @@ public sealed class Book : Base
 
     public bool Validate() => base.Validate(new BookValidator(), this);
 
-    public int UpdateAuthorId(int authorId)
+    public void UpdateAuthorId(int authorId)
     {
-        if (authorId < 1)
-            return 0;
+        if (authorId < 0)
+            return;
         
         AuthorId = authorId;
-        return 1;
     }
 
-    public int UpdateGenreId(int genreId)
+    public void UpdateGenreId(int genreId)
     {
-        if (genreId < 1)
-            return 0;
-
+        if (genreId < 0)
+            return;
+        
         GenreId = genreId;
-        return 1;
     }
 }
