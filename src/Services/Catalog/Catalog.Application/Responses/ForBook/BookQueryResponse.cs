@@ -1,6 +1,8 @@
-﻿namespace Catalog.Application.Responses.ForBook;
+﻿using Catalog.Application.Responses.ForAuthor;
 
-public class BookResponse
+namespace Catalog.Application.Responses.ForBook;
+
+public class BookQueryResponse
 {
     public int BookId { get; set; }
     
@@ -13,6 +15,8 @@ public class BookResponse
     public int Pages { get; set; }
     
     public decimal Price { get; set; }
+
+    public AuthorQueryResponse Author { get; set; } = null!;
 
     public GenreQueryResponse Genre { get; set; } = null!;
 }
