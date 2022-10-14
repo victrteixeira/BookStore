@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Catalog.Application.Exceptions;
+using Catalog.Application.Responses.ForAuthor;
 using Catalog.Core.Entities;
 using Catalog.Core.Interfaces;
 using MediatR;
 
 namespace Catalog.Application.Queries.ByAuthor;
 
-public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IReadOnlyCollection<Author>>
+public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IReadOnlyCollection<AuthorResponse>>
 {
     private readonly IAuthorRepository _repository;
     private readonly IMapper _mapper;
@@ -17,12 +18,12 @@ public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IRe
         _mapper = mapper;
     }
 
-    public async Task<IReadOnlyCollection<Author>> Handle(GetAllAuthorsQuery request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<AuthorResponse>> Handle(GetAllAuthorsQuery request, CancellationToken cancellationToken)
     {
-        var authors = await _repository.GetAll();
-        if (!authors.Any())
+        var query = await _repository.GetAll();
+        if (!query.Any())
             throw new QueryException("Nothing was found.");
 
-        return authors;
+        return _mapper.Map<IReadOnlyCollection<AuthorResponse>>(query);
     }
 }
