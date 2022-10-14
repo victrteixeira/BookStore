@@ -1,21 +1,24 @@
-﻿using Catalog.Application.Exceptions;
-using Catalog.Core.Entities;
+﻿using AutoMapper;
+using Catalog.Application.Exceptions;
+using Catalog.Application.Responses.ForBook;
 using Catalog.Core.Interfaces;
 using MediatR;
 
 namespace Catalog.Application.Queries.ByBook;
 
 public class
-    GetBooksByPublisherQueryHandler : IRequestHandler<GetBooksByPublisherQuery, IReadOnlyCollection<Book>>
+    GetBooksByPublisherQueryHandler : IRequestHandler<GetBooksByPublisherQuery, IReadOnlyCollection<BookQueryResponse>>
 {
     private readonly IBookRepository _repository;
+    private readonly IMapper _mapper;
 
-    public GetBooksByPublisherQueryHandler(IBookRepository repository)
+    public GetBooksByPublisherQueryHandler(IBookRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
-    public async Task<IReadOnlyCollection<Book>> Handle(GetBooksByPublisherQuery request,
+    public async Task<IReadOnlyCollection<BookQueryResponse>> Handle(GetBooksByPublisherQuery request,
         CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(request.Publisher))
@@ -26,6 +29,6 @@ public class
         if (!query.Any())
             throw new QueryException("Nothing was found from provided parameters");
 
-        return query;
+        return _mapper.Map<IReadOnlyCollection<BookQueryResponse>>(query);
     }
 }

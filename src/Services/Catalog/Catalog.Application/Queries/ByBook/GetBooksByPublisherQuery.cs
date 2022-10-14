@@ -1,9 +1,9 @@
-﻿using Catalog.Core.Entities;
+﻿using Catalog.Application.Responses.ForBook;
 using MediatR;
 
 namespace Catalog.Application.Queries.ByBook;
 
-public class GetBooksByPublisherQuery : IRequest<IReadOnlyCollection<Book>>
+public class GetBooksByPublisherQuery : IRequest<IReadOnlyCollection<BookQueryResponse>>
 {
     public GetBooksByPublisherQuery(string? publisher)
     {

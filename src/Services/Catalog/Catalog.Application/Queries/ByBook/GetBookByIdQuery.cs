@@ -1,9 +1,9 @@
-﻿using Catalog.Core.Entities;
+﻿using Catalog.Application.Responses.ForBook;
 using MediatR;
 
 namespace Catalog.Application.Queries.ByBook;
 
-public class GetBookByIdQuery : IRequest<Book>
+public class GetBookByIdQuery : IRequest<BookQueryResponse>
 {
     public GetBookByIdQuery(int bookId)
     {
