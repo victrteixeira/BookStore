@@ -10,5 +10,4 @@ public interface IBookRepository : IBaseRepository<Book>
     Task<IReadOnlyCollection<Book>> GetBooksByLanguage(string language);
     Task<IReadOnlyCollection<Book>> GetBooksByPublisher(string publisher);
     Task<IReadOnlyCollection<Book>> GetBooksByAuthor(int authorId);
-    Task<IReadOnlyCollection<Book>?> GetBooksByGenre(string genreName);
 }

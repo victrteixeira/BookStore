@@ -71,16 +71,4 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             .Where(i => i.AuthorId == authorId)
             .ToListAsync();
     }
-
-    public async Task<IReadOnlyCollection<Book>?> GetBooksByGenre(string genreName)
-    {
-        return await _context.Books
-            .AsNoTracking()
-            .Include(a => a.Author)
-            .Include(b => b.Genre)
-            .Where(g => g.Genre.Name.ToLower() == genreName.Trim().ToLower())
-            .ToListAsync();
-        
-        // TODO > Change this query to "Contains" rather than equal comparison
-    } 
 }
