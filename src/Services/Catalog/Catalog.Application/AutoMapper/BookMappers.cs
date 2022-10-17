@@ -27,16 +27,16 @@ public class BookMappers : Profile
 
         #region Book Query
         
-        CreateMap<Author, AuthorQueryResponse>();
+        CreateMap<Author, AuthorResponseForBook>();
         
         CreateMap<Genre, GenreQueryResponse>();
-        
+
         CreateMap<Book, BookQueryResponse>()
             .ForMember(dest => dest.Author,
                 opt => opt.MapFrom(src => src.Author))
             .ForMember(dest => dest.Genre,
                 opt => opt.MapFrom(src => src.Genre));
-
+            
         CreateMap<Book, BookResponse>()
             .ForMember(dest => dest.Genre,
                 opt => opt.MapFrom(src => src.Genre));

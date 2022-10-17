@@ -16,7 +16,7 @@ public class BookQueryResponse
     
     public decimal Price { get; set; }
 
-    public AuthorQueryResponse Author { get; set; } = null!;
+    public AuthorResponseForBook Author { get; set; } = null!;
 
     public GenreQueryResponse Genre { get; set; } = null!;
 }

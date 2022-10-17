@@ -31,8 +31,8 @@ public class AuthorController : ControllerBase
     }
     
     [HttpPut]
-    [Route("update/{id:int}")]
-    public async Task<IActionResult> UpdateAuthor(int bookId, [FromBody] UpdateAuthorCommand command)
+    [Route("update")]
+    public async Task<IActionResult> UpdateAuthor([FromBody] UpdateAuthorCommand command)
     {
         var mediatorResponse = await _mediatr.Send(command);
         var apiResponse = ApiResponse<Book>.Success(mediatorResponse, "Author updated successfully.");
