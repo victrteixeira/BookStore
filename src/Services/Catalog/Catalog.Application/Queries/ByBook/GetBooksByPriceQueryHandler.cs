@@ -9,8 +9,8 @@ namespace Catalog.Application.Queries.ByBook;
 public class
     GetBooksByPriceQueryHandler : IRequestHandler<GetBooksByPriceQuery, IReadOnlyCollection<BookQueryResponse>>
 {
-    private readonly IBookRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IBookRepository _repository;
 
     public GetBooksByPriceQueryHandler(IBookRepository repository, IMapper mapper)
     {

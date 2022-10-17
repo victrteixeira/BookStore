@@ -21,7 +21,7 @@ public static class Container
         services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddScoped<IBookRepository, BookRepository>();
         services.AddScoped<IGenreRepository, GenreRepository>();
-        
+
         return services;
     }
 

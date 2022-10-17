@@ -2,7 +2,7 @@
 
 public class DomainException : Exception
 {
-    public DomainException() : base()
+    public DomainException()
     {
     }
 

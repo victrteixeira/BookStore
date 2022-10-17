@@ -2,7 +2,7 @@
 
 public static class Constants
 {
-    private static readonly string[] _bookRepoKeys = new string[]
+    public static string[] BookRepoKeys { get; } =
     {
         "BookById",
         "BookByName",
@@ -10,16 +10,11 @@ public static class Constants
         "BookByPriceAndLang",
         "BookByPublisher",
         "BookByAuthor",
-        "BookByGenre",
+        "BookByGenre"
     };
-    
-    private static readonly string[] _authorRepoKeys = new string[]
+
+    public static string[] AuthorRepoKey { get; } =
     {
         "AuthorByName"
     };
-    
-    public static string[] BookRepoKeys { get => _bookRepoKeys; }
-
-    public static string[] AuthorRepoKey { get => _authorRepoKeys; }
-
 }

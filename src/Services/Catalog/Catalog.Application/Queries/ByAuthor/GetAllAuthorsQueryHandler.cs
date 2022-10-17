@@ -8,8 +8,8 @@ namespace Catalog.Application.Queries.ByAuthor;
 
 public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IReadOnlyCollection<AuthorResponse>>
 {
-    private readonly IAuthorRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IAuthorRepository _repository;
 
     public GetAllAuthorsQueryHandler(IAuthorRepository repository, IMapper mapper)
     {
@@ -17,7 +17,8 @@ public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IRe
         _mapper = mapper;
     }
 
-    public async Task<IReadOnlyCollection<AuthorResponse>> Handle(GetAllAuthorsQuery request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<AuthorResponse>> Handle(GetAllAuthorsQuery request,
+        CancellationToken cancellationToken)
     {
         var query = await _repository.GetAll();
         if (!query.Any())

@@ -8,8 +8,8 @@ namespace Catalog.Application.Commands.Create;
 
 public class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, AuthorResponse>
 {
-    private readonly IAuthorRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IAuthorRepository _repository;
 
     public CreateAuthorCommandHandler(IAuthorRepository repository, IMapper mapper)
     {
@@ -20,7 +20,7 @@ public class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, A
     public async Task<AuthorResponse> Handle(CreateAuthorCommand request, CancellationToken cancellationToken)
     {
         var newAuthor = _mapper.Map<Author>(request);
-        
+
         var data = await _repository.Add(newAuthor);
 
         return _mapper.Map<AuthorResponse>(data);

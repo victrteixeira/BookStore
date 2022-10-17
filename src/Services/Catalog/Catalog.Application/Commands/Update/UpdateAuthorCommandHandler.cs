@@ -9,8 +9,8 @@ namespace Catalog.Application.Commands.Update;
 
 public class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand, AuthorResponse>
 {
-    private readonly IAuthorRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IAuthorRepository _repository;
 
     public UpdateAuthorCommandHandler(IAuthorRepository repository, IMapper mapper)
     {
@@ -21,7 +21,7 @@ public class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand, A
     public async Task<AuthorResponse> Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {
         var newAuthor = _mapper.Map<Author>(request);
-            
+
         var data = await _repository.Update(newAuthor, request.AuthorId);
 
         if (data is null)

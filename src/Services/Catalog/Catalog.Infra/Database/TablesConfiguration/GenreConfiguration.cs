@@ -9,12 +9,12 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
     public void Configure(EntityTypeBuilder<Genre> builder)
     {
         builder.HasKey(p => p.GenreId);
-        
+
         builder.Property(p => p.GenreId)
             .UseIdentityColumn()
             .HasColumnName("Genre_Id")
             .HasColumnOrder(0);
-        
+
         builder.Property(p => p.Name)
             .IsRequired()
             .HasColumnName("Genre_Name")
@@ -26,7 +26,7 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
             .HasColumnName("SubGenre")
             .HasMaxLength(60)
             .HasColumnOrder(2);
-        
+
         builder.Property(p => p.BriefDescription)
             .HasColumnName("Brief_Description")
             .HasMaxLength(100)

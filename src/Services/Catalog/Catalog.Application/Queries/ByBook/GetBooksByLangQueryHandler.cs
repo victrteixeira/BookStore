@@ -9,8 +9,8 @@ namespace Catalog.Application.Queries.ByBook;
 public class
     GetBooksByLangQueryHandler : IRequestHandler<GetBooksByLangQuery, IReadOnlyCollection<BookQueryResponse>>
 {
-    private readonly IBookRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IBookRepository _repository;
 
     public GetBooksByLangQueryHandler(IBookRepository repository, IMapper mapper)
     {

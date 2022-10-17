@@ -12,7 +12,7 @@ public class CatalogContext : DbContext
     public CatalogContext(DbContextOptions<CatalogContext> options) : base(options)
     {
     }
-    
+
     public virtual DbSet<Author> Authors { get; set; } = null!;
     public virtual DbSet<Book> Books { get; set; } = null!;
     public virtual DbSet<Genre> Genres { get; set; } = null!;

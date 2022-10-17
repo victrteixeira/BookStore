@@ -8,8 +8,8 @@ namespace Catalog.Application.Commands.Update;
 
 public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, UpdateBookCommand>
 {
-    private readonly IBookRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IBookRepository _repository;
 
     public UpdateBookCommandHandler(IBookRepository repository, IMapper mapper)
     {

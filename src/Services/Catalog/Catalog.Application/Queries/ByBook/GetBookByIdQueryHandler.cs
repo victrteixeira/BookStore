@@ -8,8 +8,8 @@ namespace Catalog.Application.Queries.ByBook;
 
 public class GetBookByIdQueryHandler : IRequestHandler<GetBookByIdQuery, BookQueryResponse>
 {
-    private readonly IBookRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IBookRepository _repository;
 
     public GetBookByIdQueryHandler(IBookRepository repository, IMapper mapper)
     {
@@ -19,8 +19,8 @@ public class GetBookByIdQueryHandler : IRequestHandler<GetBookByIdQuery, BookQue
 
     public async Task<BookQueryResponse> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
     {
-        var query = await _repository.GetBookById(request.BookId) ?? 
-               throw new QueryException("Book not found.");
+        var query = await _repository.GetBookById(request.BookId) ??
+                    throw new QueryException("Book not found.");
 
         return _mapper.Map<BookQueryResponse>(query);
     }

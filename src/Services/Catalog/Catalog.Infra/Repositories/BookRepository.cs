@@ -8,8 +8,12 @@ namespace Catalog.Infra.Repositories;
 public class BookRepository : BaseRepository<Book>, IBookRepository
 {
     private readonly CatalogContext _context;
-    public BookRepository(CatalogContext context) : base(context) => _context = context;
-    
+
+    public BookRepository(CatalogContext context) : base(context)
+    {
+        _context = context;
+    }
+
     public async Task<Book?> GetBookById(int id)
     {
         return await _context.Books
@@ -58,7 +62,7 @@ public class BookRepository : BaseRepository<Book>, IBookRepository
             .Include(b => b.Genre)
             .Where(p => p.Publisher != null && p.Publisher.ToLower() == publisher.Trim().ToLower())
             .ToListAsync();
-        
+
         // TODO > Change this query to "Contains" rather than equal comparison
     }
 

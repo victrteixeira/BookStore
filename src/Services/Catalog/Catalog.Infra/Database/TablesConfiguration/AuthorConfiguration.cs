@@ -20,7 +20,7 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .HasMaxLength(50)
             .HasColumnName("First_Name")
             .HasColumnOrder(1);
-        
+
         builder.Property(p => p.LastName)
             .IsRequired()
             .HasMaxLength(50)
@@ -38,12 +38,12 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .HasMaxLength(6)
             .HasColumnName("Died_At")
             .HasColumnOrder(4);
-        
+
         builder.Property(p => p.Country)
             .HasMaxLength(60)
             .HasColumnName("Country")
             .HasColumnOrder(5);
-        
+
         builder.Property(p => p.BriefDescription)
             .HasMaxLength(100)
             .HasColumnName("Brief_Description")

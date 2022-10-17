@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Catalog.Application.Commands.Create;
 using Catalog.Application.Commands.Update;
-using Catalog.Application.Responses.ForAuthor;
 using Catalog.Application.Responses.ForBook;
 using Catalog.Core.Entities;
 
@@ -26,9 +25,9 @@ public class BookMappers : Profile
         #endregion
 
         #region Book Query
-        
+
         CreateMap<Author, AuthorResponseForBook>();
-        
+
         CreateMap<Genre, GenreQueryResponse>();
 
         CreateMap<Book, BookQueryResponse>()
@@ -36,7 +35,7 @@ public class BookMappers : Profile
                 opt => opt.MapFrom(src => src.Author))
             .ForMember(dest => dest.Genre,
                 opt => opt.MapFrom(src => src.Genre));
-            
+
         CreateMap<Book, BookResponse>()
             .ForMember(dest => dest.Genre,
                 opt => opt.MapFrom(src => src.Genre));

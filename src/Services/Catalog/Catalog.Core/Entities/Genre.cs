@@ -14,9 +14,9 @@ public sealed class Genre : Base
     }
 
     public int GenreId { get; private set; }
-    public string Name { get; private set; }
-    public string SubGenre { get; private set; }
-    public string? BriefDescription { get; private set; }
+    public string Name { get; }
+    public string SubGenre { get; }
+    public string? BriefDescription { get; }
 
     public List<Book>? Books { get; set; }
     public bool Validate() => base.Validate(new GenreValidator(), this);

@@ -14,7 +14,7 @@ public sealed class Book : Base
         AuthorId = authorId;
         Validate();
     }
-    
+
     public Book(string name, int pages, decimal price, string language, string? publisher, int authorId, int genreId)
     {
         Name = name;
@@ -28,15 +28,15 @@ public sealed class Book : Base
     }
 
     public int BookId { get; private set; }
-    public string Name { get; private set; }
-    public int Pages { get; private set; }
-    public decimal Price { get; private set; }
-    public string Language { get; private set; }
-    public string? Publisher { get; private set; }
+    public string Name { get; }
+    public int Pages { get; }
+    public decimal Price { get; }
+    public string Language { get; }
+    public string? Publisher { get; }
 
     public int AuthorId { get; private set; }
     public Author Author { get; set; } = null!;
-    
+
     public int GenreId { get; private set; }
     public Genre Genre { get; set; } = null!;
 
@@ -46,7 +46,7 @@ public sealed class Book : Base
     {
         if (authorId < 0)
             return;
-        
+
         AuthorId = authorId;
     }
 
@@ -54,7 +54,7 @@ public sealed class Book : Base
     {
         if (genreId < 0)
             return;
-        
+
         GenreId = genreId;
     }
 }

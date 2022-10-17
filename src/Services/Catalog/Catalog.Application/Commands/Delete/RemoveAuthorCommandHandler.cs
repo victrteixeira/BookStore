@@ -7,8 +7,8 @@ namespace Catalog.Application.Commands.Delete;
 
 public class RemoveAuthorCommandHandler : IRequestHandler<RemoveAuthorCommand, int>
 {
-    private readonly IAuthorRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IAuthorRepository _repository;
 
     public RemoveAuthorCommandHandler(IAuthorRepository repository, IMapper mapper)
     {

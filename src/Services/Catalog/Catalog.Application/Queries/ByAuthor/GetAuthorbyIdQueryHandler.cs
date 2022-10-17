@@ -6,12 +6,12 @@ using MediatR;
 
 namespace Catalog.Application.Queries.ByAuthor;
 
-public class GetAuthorbyIdQueryHandler : IRequestHandler<GetAuthorByIdQuery, AuthorQueryResponse>
+public class GetAuthorByIdQueryHandler : IRequestHandler<GetAuthorByIdQuery, AuthorQueryResponse>
 {
-    private readonly IAuthorRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IAuthorRepository _repository;
 
-    public GetAuthorbyIdQueryHandler(IAuthorRepository repository, IMapper mapper)
+    public GetAuthorByIdQueryHandler(IAuthorRepository repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -19,8 +19,8 @@ public class GetAuthorbyIdQueryHandler : IRequestHandler<GetAuthorByIdQuery, Aut
 
     public async Task<AuthorQueryResponse> Handle(GetAuthorByIdQuery request, CancellationToken cancellationToken)
     {
-        var query = await _repository.GetAuthorById(request.AuthorId) ?? 
-               throw new QueryException("Author not found.");
+        var query = await _repository.GetAuthorById(request.AuthorId) ??
+                    throw new QueryException("Author not found.");
 
         return _mapper.Map<AuthorQueryResponse>(query);
     }

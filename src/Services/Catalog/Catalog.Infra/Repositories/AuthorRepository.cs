@@ -8,6 +8,7 @@ namespace Catalog.Infra.Repositories;
 public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
 {
     private readonly CatalogContext _context;
+
     public AuthorRepository(CatalogContext context) : base(context)
     {
         _context = context;
@@ -29,7 +30,7 @@ public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
             .AsNoTracking()
             .Include(a => a.Books)!
             .ThenInclude(b => b.Genre)
-            .Where(n => 
+            .Where(n =>
                 n.FirstName.ToLower() == firstname.Trim().ToLower() &&
                 n.LastName.ToLower() == lastname.Trim().ToLower())
             .FirstOrDefaultAsync();

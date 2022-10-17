@@ -9,8 +9,8 @@ namespace Catalog.Application.Queries.ByBook;
 public class
     GetBooksByPublisherQueryHandler : IRequestHandler<GetBooksByPublisherQuery, IReadOnlyCollection<BookQueryResponse>>
 {
-    private readonly IBookRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IBookRepository _repository;
 
     public GetBooksByPublisherQueryHandler(IBookRepository repository, IMapper mapper)
     {

@@ -8,7 +8,11 @@ namespace Catalog.Infra.Repositories;
 public class GenreRepository : BaseRepository<Genre>, IGenreRepository
 {
     private readonly CatalogContext _context;
-    public GenreRepository(CatalogContext context) : base(context) => _context = context;
+
+    public GenreRepository(CatalogContext context) : base(context)
+    {
+        _context = context;
+    }
 
     public async Task<Genre?> GetGenre(string genreName, string subgenre)
     {

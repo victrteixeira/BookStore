@@ -12,7 +12,7 @@ public class GenreValidator : AbstractValidator<Genre>
             .NotNull().WithMessage("{PropertyName} is required and can not be null.")
             .NotEmpty().WithMessage("{PropertyName} is required and can not be empty.")
             .Length(3, 60).WithMessage("{PropertyName} must be between 3 and 60 chars.");
-        
+
         RuleFor(subgenre => subgenre.SubGenre)
             .Length(3, 60).WithMessage("{PropertyName} must be between 3 and 60 chars.");
 
