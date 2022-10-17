@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Catalog.API.Controllers;
 
 [ApiController]
-[Route("Api/[controller]")]
+[Route("Api/v1/[controller]")]
 public class BookController : ControllerBase
 {
     private readonly IMediator _mediatr;
