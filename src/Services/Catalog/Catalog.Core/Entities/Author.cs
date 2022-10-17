@@ -1,5 +1,4 @@
-﻿using Catalog.Core.Exceptions;
-using Catalog.Core.Validators;
+﻿using Catalog.Core.Validators;
 
 namespace Catalog.Core.Entities;
 

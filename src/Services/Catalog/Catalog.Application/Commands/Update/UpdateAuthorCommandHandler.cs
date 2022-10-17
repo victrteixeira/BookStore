@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Catalog.Application.Exceptions;
-using Catalog.Application.Responses;
 using Catalog.Application.Responses.ForAuthor;
 using Catalog.Core.Entities;
 using Catalog.Core.Interfaces;

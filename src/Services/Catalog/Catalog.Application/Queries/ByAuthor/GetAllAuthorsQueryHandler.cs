@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Catalog.Application.Exceptions;
 using Catalog.Application.Responses.ForAuthor;
-using Catalog.Core.Entities;
 using Catalog.Core.Interfaces;
 using MediatR;
 

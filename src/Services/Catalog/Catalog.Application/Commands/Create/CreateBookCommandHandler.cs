@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Catalog.Application.Responses.ForBook;
 using Catalog.Core.Entities;
 using Catalog.Core.Interfaces;
 using MediatR;

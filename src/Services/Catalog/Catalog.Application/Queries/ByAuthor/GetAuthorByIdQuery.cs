@@ -1,5 +1,4 @@
 ﻿using Catalog.Application.Responses.ForAuthor;
-using Catalog.Core.Entities;
 using MediatR;
 
 namespace Catalog.Application.Queries.ByAuthor;

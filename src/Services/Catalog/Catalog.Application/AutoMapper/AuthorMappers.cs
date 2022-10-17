@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Catalog.Application.Commands.Create;
 using Catalog.Application.Commands.Update;
-using Catalog.Application.Responses;
 using Catalog.Application.Responses.ForAuthor;
-using Catalog.Application.Responses.ForBook;
 using Catalog.Core.Entities;
 
 namespace Catalog.Application.AutoMapper;

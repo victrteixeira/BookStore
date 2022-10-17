@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Catalog.Application.AutoMapper;
+﻿using Catalog.Application.AutoMapper;
 using Catalog.Application.Commands.Create;
 using Catalog.Core.Interfaces;
 using Catalog.Infra.Database;

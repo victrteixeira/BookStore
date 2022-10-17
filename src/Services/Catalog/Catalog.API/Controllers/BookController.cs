@@ -1,11 +1,8 @@
-﻿using System.Diagnostics;
-using AutoMapper;
-using Catalog.API.ExceptionMiddleware;
+﻿using Catalog.API.ExceptionMiddleware;
 using Catalog.Application.Commands.Create;
 using Catalog.Application.Commands.Delete;
 using Catalog.Application.Commands.Update;
 using Catalog.Application.Queries.ByBook;
-using Catalog.Application.Responses;
 using Catalog.Application.Responses.ForBook;
 using Catalog.Core.Entities;
 using MediatR;

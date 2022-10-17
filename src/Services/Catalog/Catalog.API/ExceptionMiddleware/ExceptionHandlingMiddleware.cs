@@ -50,8 +50,7 @@ public class ExceptionHandlingMiddleware
                 break;
         }
         
-        // _logger.LogError($"{error.GetType()}: {error.Message}");
-        // _logger.LogError(error.StackTrace);
+        _logger.LogError($"{error.GetType()}: {error.Message}\n{error.StackTrace}");
         var result = JsonSerializer.Serialize(responseModel);
         await context.Response.WriteAsync(result);
     }
