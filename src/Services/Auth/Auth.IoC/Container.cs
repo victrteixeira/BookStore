@@ -1,5 +1,7 @@
 ﻿using Auth.Core.Database;
+using Auth.Core.Interfaces;
 using Auth.Core.Models;
+using Auth.Core.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +20,8 @@ public static class Container
         services.AddIdentity<AppUser, IdentityRole>()
             .AddEntityFrameworkStores<AuthDbContext>()
             .AddDefaultTokenProviders();
+
+        services.AddScoped<IAuthServices, AuthServices>();
         
         return services;
     }
