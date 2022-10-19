@@ -16,13 +16,24 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
-    [Route("create")]
-    public async Task<IActionResult> Create([FromBody] UserDto user)
+    [Route("Create")]
+    public async Task<IActionResult> Create([FromBody] CreateUserDto user)
     {
         var newUser = await _authServices.CreateUserAsync(user);
-        if (newUser == null)
+        if (newUser is null)
             return BadRequest();
         
         return Ok(newUser);
+    }
+
+    [HttpPut]
+    [Route("Update")]
+    public async Task<IActionResult> Update([FromBody] UpdateUserDto updateUser)
+    {
+        var updatedUser = await _authServices.UpdateUserAsync(updateUser);
+        if (updatedUser is null)
+            return BadRequest();
+
+        return Ok(updatedUser);
     }
 }

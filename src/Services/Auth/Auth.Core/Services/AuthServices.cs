@@ -8,13 +8,16 @@ namespace Auth.Core.Services;
 public class AuthServices : IAuthServices
 {
     private readonly UserManager<AppUser> _userManager;
+    private readonly IPasswordHasher<AppUser> _passwordHasher;
 
-    public AuthServices(UserManager<AppUser> userManager)
+    public AuthServices(UserManager<AppUser> userManager, IPasswordHasher<AppUser> passwordHasher)
     {
         _userManager = userManager;
+        _passwordHasher = passwordHasher;
     }
 
-    public async Task<AppUser?> CreateUserAsync(UserDto user)
+    // TODO > AppUser validations
+    public async Task<AppUser?> CreateUserAsync(CreateUserDto user)
     {
         var appUser = new AppUser { UserName = user.Name, Email = user.Email };
         var result = await _userManager.CreateAsync(appUser, user.Password);
@@ -24,6 +27,21 @@ public class AuthServices : IAuthServices
 
         return appUser;
     }
-    
-    // TODO > AppUser validations
+
+    public async Task<AppUser?> UpdateUserAsync(UpdateUserDto newUser)
+    {
+        var user = await _userManager.FindByEmailAsync(newUser.OlderEmail);
+        if (user is null)
+            return null;
+
+        user.UserName = newUser.Name;
+        user.Email = newUser.Email;
+        user.PasswordHash = _passwordHasher.HashPassword(user, newUser.Password);
+
+        var result = await _userManager.UpdateAsync(user);
+        if (!result.Succeeded)
+            return null;
+
+        return user;
+    }
 }

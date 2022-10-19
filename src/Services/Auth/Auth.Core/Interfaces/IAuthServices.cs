@@ -5,5 +5,6 @@ namespace Auth.Core.Interfaces;
 
 public interface IAuthServices
 {
-    Task<AppUser?> CreateUserAsync(UserDto user);
+    Task<AppUser?> CreateUserAsync(CreateUserDto user);
+    Task<AppUser?> UpdateUserAsync(UpdateUserDto newUser);
 }

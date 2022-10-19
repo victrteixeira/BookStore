@@ -2,7 +2,7 @@
 
 namespace Auth.Core.DTOs;
 
-public class UserDto
+public class CreateUserDto
 {
     [Required] public string Name { get; set; } = null!;
 
