@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Mi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+type: Opaque
+data:
+  rootpwd: cVZ3ZmNpSzhA
+  regularuser: aWRlbnRpdHlhZG1pbg==
+  regularpwd: aWRlbnRpdHlhZG1pbnB3ZA==
