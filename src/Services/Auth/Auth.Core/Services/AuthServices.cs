@@ -19,7 +19,7 @@ public class AuthServices : IAuthServices
     // TODO > AppUser validations
     public async Task<AppUser?> CreateUserAsync(CreateUserDto user)
     {
-        var appUser = new AppUser { UserName = user.Name, Email = user.Email };
+        var appUser = new AppUser { UserName = user.UserName, Email = user.Email };
         var result = await _userManager.CreateAsync(appUser, user.Password);
         
         if (!result.Succeeded)
@@ -34,7 +34,7 @@ public class AuthServices : IAuthServices
         if (user is null)
             return null;
 
-        user.UserName = newUser.Name;
+        user.UserName = newUser.UserName;
         user.Email = newUser.Email;
         user.PasswordHash = _passwordHasher.HashPassword(user, newUser.Password);
 
