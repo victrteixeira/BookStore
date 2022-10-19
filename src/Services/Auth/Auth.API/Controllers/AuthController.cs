@@ -36,4 +36,15 @@ public class AuthController : ControllerBase
 
         return Ok(updatedUser);
     }
+
+    [HttpDelete]
+    [Route("Delete")]
+    public async Task<IActionResult> Delete(string email)
+    {
+        var res = await _authServices.DeleteUserAsync(email);
+        if (res is false)
+            return BadRequest();
+
+        return NoContent();
+    }
 }

@@ -44,4 +44,14 @@ public class AuthServices : IAuthServices
 
         return user;
     }
+
+    public async Task<bool> DeleteUserAsync(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user is null)
+            return false;
+
+        await _userManager.DeleteAsync(user);
+        return true;
+    }
 }

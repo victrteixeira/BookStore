@@ -7,4 +7,5 @@ public interface IAuthServices
 {
     Task<AppUser?> CreateUserAsync(CreateUserDto user);
     Task<AppUser?> UpdateUserAsync(UpdateUserDto newUser);
+    Task<bool> DeleteUserAsync(string email);
 }
