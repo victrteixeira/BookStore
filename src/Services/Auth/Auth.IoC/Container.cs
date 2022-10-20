@@ -21,6 +21,16 @@ public static class Container
         services.AddIdentity<AppUser, IdentityRole>()
             .AddEntityFrameworkStores<AuthDbContext>()
             .AddDefaultTokenProviders();
+        
+        services.ConfigureApplicationCookie(opt =>
+        {
+            opt.Cookie.Name = "BookStore.Authentication";
+            opt.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+            opt.SlidingExpiration = true;
+            
+            opt.LoginPath = "/api/Account/Login";
+        });
+
 
         services.Configure<IdentityOptions>(opt =>
         {
@@ -37,6 +47,7 @@ public static class Container
         services.AddTransient<IUserValidator<AppUser>, CustomUserPolicies>();
 
         services.AddScoped<IAuthServices, AuthServices>();
+        services.AddScoped<IAccountServices, AccountServices>();
         
         return services;
     }
