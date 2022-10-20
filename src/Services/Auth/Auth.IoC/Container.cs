@@ -48,6 +48,7 @@ public static class Container
 
         services.AddScoped<IAuthServices, AuthServices>();
         services.AddScoped<IAccountServices, AccountServices>();
+        services.AddScoped<IRoleServices, RoleServices>();
         
         return services;
     }
