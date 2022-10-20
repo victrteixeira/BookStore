@@ -1,4 +1,4 @@
-﻿using Auth.Core.DTOs;
+﻿using Auth.Core.DTO.AccountDto;
 using Auth.Core.Interfaces;
 using Auth.Core.Models;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +16,7 @@ public class AccountServices : IAccountServices
         _signInManager = signInManager;
     }
 
-    public async Task<bool> LoginAsync(LoginUserDto loginUserDto)
+    public async Task<bool> LoginAsync(LoginUser loginUserDto)
     {
         var appUser = await _userManager.FindByEmailAsync(loginUserDto.Email);
         

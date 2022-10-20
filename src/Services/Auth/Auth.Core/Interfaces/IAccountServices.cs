@@ -1,9 +1,9 @@
-﻿using Auth.Core.DTOs;
+﻿using Auth.Core.DTO.AccountDto;
 
 namespace Auth.Core.Interfaces;
 
 public interface IAccountServices
 {
-    Task<bool> LoginAsync(LoginUserDto loginUserDto);
+    Task<bool> LoginAsync(LoginUser loginUserDto);
     Task<bool> Logout();
 }

@@ -1,4 +1,4 @@
-﻿using Auth.Core.DTOs;
+﻿using Auth.Core.DTO.AuthDto;
 using Auth.Core.Interfaces;
 using Auth.Core.Models;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +21,7 @@ public class AuthServices : IAuthServices
     }
 
     // TODO > AppUser validations
-    public async Task<AppUser?> CreateUserAsync(CreateUserDto user)
+    public async Task<AppUser?> CreateUserAsync(CreateUser user)
     {
         var appUser = new AppUser { UserName = user.UserName, Email = user.Email };
         var result = await _userManager.CreateAsync(appUser, user.Password);
@@ -32,7 +32,7 @@ public class AuthServices : IAuthServices
         return appUser;
     }
 
-    public async Task<AppUser?> UpdateUserAsync(UpdateUserDto newUser)
+    public async Task<AppUser?> UpdateUserAsync(UpdateUser newUser)
     {
         var user = await _userManager.FindByEmailAsync(newUser.OlderEmail);
         if (user is null)

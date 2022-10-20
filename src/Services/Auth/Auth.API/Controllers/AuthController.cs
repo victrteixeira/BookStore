@@ -1,4 +1,4 @@
-﻿using Auth.Core.DTOs;
+﻿using Auth.Core.DTO.AuthDto;
 using Auth.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateUserDto user)
+    public async Task<IActionResult> Create([FromBody] CreateUser user)
     {
         var newUser = await _authServices.CreateUserAsync(user);
         if (newUser is null)
@@ -28,7 +28,7 @@ public class AuthController : ControllerBase
 
     [HttpPut]
     [Route("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateUserDto updateUser)
+    public async Task<IActionResult> Update([FromBody] UpdateUser updateUser)
     {
         var updatedUser = await _authServices.UpdateUserAsync(updateUser);
         if (updatedUser is null)

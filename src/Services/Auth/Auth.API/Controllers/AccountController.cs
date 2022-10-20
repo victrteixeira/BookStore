@@ -1,4 +1,4 @@
-﻿using Auth.Core.DTOs;
+﻿using Auth.Core.DTO.AccountDto;
 using Auth.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,7 @@ public class AccountController : ControllerBase
     [HttpPost]
     [AllowAnonymous]
     [Route("login")]
-    public async Task<IActionResult> Login(LoginUserDto login)
+    public async Task<IActionResult> Login(LoginUser login)
     {
         var result = await _accountServices.LoginAsync(login);
         if (!result)
