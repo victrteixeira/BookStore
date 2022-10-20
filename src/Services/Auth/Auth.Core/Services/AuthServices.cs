@@ -9,11 +9,15 @@ public class AuthServices : IAuthServices
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly IPasswordHasher<AppUser> _passwordHasher;
+    private readonly IPasswordValidator<AppUser> _passwordValidator;
+    private readonly IUserValidator<AppUser> _userValidator;
 
-    public AuthServices(UserManager<AppUser> userManager, IPasswordHasher<AppUser> passwordHasher)
+    public AuthServices(UserManager<AppUser> userManager, IPasswordHasher<AppUser> passwordHasher, IPasswordValidator<AppUser> passwordValidator, IUserValidator<AppUser> userValidator)
     {
         _userManager = userManager;
         _passwordHasher = passwordHasher;
+        _passwordValidator = passwordValidator;
+        _userValidator = userValidator;
     }
 
     // TODO > AppUser validations
@@ -38,7 +42,14 @@ public class AuthServices : IAuthServices
         user.Email = newUser.Email;
         user.PasswordHash = _passwordHasher.HashPassword(user, newUser.Password);
 
+        var passwordIsValid = await _passwordValidator.ValidateAsync(_userManager, user, newUser.Password);
+        var emailIsValid = await _userValidator.ValidateAsync(_userManager, user);
+
+        if (passwordIsValid == null || emailIsValid == null || !passwordIsValid.Succeeded || !emailIsValid.Succeeded)
+            return null;
+
         var result = await _userManager.UpdateAsync(user);
+        
         if (!result.Succeeded)
             return null;
 
