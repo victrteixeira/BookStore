@@ -1,68 +1,127 @@
 ﻿using Auth.Core.DTO.AuthDto;
 using Auth.Core.Interfaces;
 using Auth.Core.Models;
+using Auth.Core.Utils.Constants;
+using Auth.Core.Utils.Exceptions;
+using Auth.Core.Utils.Messages;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 
 namespace Auth.Core.Services;
 
 public class AuthServices : IAuthServices
 {
+    private readonly IMapper _mapper;
     private readonly UserManager<AppUser> _userManager;
-    private readonly IPasswordHasher<AppUser> _passwordHasher;
-    private readonly IPasswordValidator<AppUser> _passwordValidator;
-    private readonly IUserValidator<AppUser> _userValidator;
+    private readonly SignInManager<AppUser> _signInManager;
+    private readonly IRoleServices _roleServices;
 
-    public AuthServices(UserManager<AppUser> userManager, IPasswordHasher<AppUser> passwordHasher, IPasswordValidator<AppUser> passwordValidator, IUserValidator<AppUser> userValidator)
+    public AuthServices(IMapper mapper, UserManager<AppUser> userManager, IRoleServices roleServices, SignInManager<AppUser> signInManager)
     {
+        _mapper = mapper;
         _userManager = userManager;
-        _passwordHasher = passwordHasher;
-        _passwordValidator = passwordValidator;
-        _userValidator = userValidator;
+        _roleServices = roleServices;
+        _signInManager = signInManager;
     }
 
-    // TODO > AppUser validations
-    public async Task<AppUser?> CreateUserAsync(CreateUser user)
+    public async Task<ReadUser> CreateUserAsync(CreateUser command)
     {
-        var appUser = new AppUser { UserName = user.UserName, Email = user.Email };
-        var result = await _userManager.CreateAsync(appUser, user.Password);
+        var appUser = _mapper.Map<AppUser>(command);
         
-        if (!result.Succeeded)
-            return null; // TODO > Should return the identity error list
+        var userManager = await _userManager.CreateAsync(appUser, command.Password);
 
-        return appUser;
+        var roleManager = await _roleServices.ManageUserInRole(appUser.UserName, Roles.Administrator);
+
+        if (!userManager.Succeeded || !roleManager.Succeeded)
+            throw new AuthException(IdentityMessage.IdentityMessageBuilder(userManager.Errors, roleManager.Errors));
+
+        return _mapper.Map<ReadUser>(appUser);
     }
 
-    public async Task<AppUser?> UpdateUserAsync(UpdateUser newUser)
+    public async Task<ReadUser> UpdateUserAsync(UpdateUser command)
     {
-        var user = await _userManager.FindByEmailAsync(newUser.OlderEmail);
+        var user = await _userManager.FindByIdAsync(command.Id);
         if (user is null)
-            return null;
+            throw new RequestException("User not found or don't exist.");
 
-        user.UserName = newUser.UserName;
-        user.Email = newUser.Email;
-        user.PasswordHash = _passwordHasher.HashPassword(user, newUser.Password);
+        user.UserName = command.UserName;
+        user.Email = command.Email;
+        user.Age = command.Age;
+        user.FirstName = command.FirstName;
+        user.LastName = command.LastName;
 
-        var passwordIsValid = await _passwordValidator.ValidateAsync(_userManager, user, newUser.Password);
-        var emailIsValid = await _userValidator.ValidateAsync(_userManager, user);
-
-        if (passwordIsValid == null || emailIsValid == null || !passwordIsValid.Succeeded || !emailIsValid.Succeeded)
-            return null;
-
-        var result = await _userManager.UpdateAsync(user);
+        var userManager = await _userManager.UpdateAsync(user);
+        if (!userManager.Succeeded)
+            throw new AuthException(IdentityMessage.IdentityMessageBuilder(userManager.Errors));
         
-        if (!result.Succeeded)
-            return null;
-
-        return user;
+        return _mapper.Map<ReadUser>(user);
     }
 
-    public async Task<bool> DeleteUserAsync(string email)
+    public async Task<ReadUser> RegisterAsync(CreateUser command)
+    {
+        bool pwdConfirmed = command.Password.Equals(command.ConfirmPassword);
+        if (!pwdConfirmed)
+            throw new RequestException("Password don't match. Please review and try again.");
+        
+        var regularUser = _mapper.Map<AppUser>(command);
+
+        var userManager = await _userManager.CreateAsync(regularUser, command.Password);
+
+        if (!userManager.Succeeded)
+            throw new AuthException(IdentityMessage.IdentityMessageBuilder(userManager.Errors));
+        
+        var roleManager = await _roleServices.ManageUserInRole(regularUser.UserName, Roles.User);
+        if (!roleManager.Succeeded)
+            throw new RoleException(IdentityMessage.IdentityMessageBuilder(roleManager.Errors));
+
+        return _mapper.Map<ReadUser>(regularUser);
+    }
+
+    public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordUser command)
+    {
+        var user = await _userManager.FindByEmailAsync(command.Email);
+        if(user is null)
+            throw new RequestException("User not found or don't exist.");
+
+        var checkPwd = await _userManager.CheckPasswordAsync(user, command.OldPassword);
+        if (!checkPwd)
+            throw new PasswordException("Email or password are incorrect.");
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        var result = await _userManager.ResetPasswordAsync(user, token, command.Password);
+        if (!result.Succeeded)
+            throw new AuthException(IdentityMessage.IdentityMessageBuilder(result.Errors));
+
+        return result;
+    }
+
+    public async Task<IdentityResult> LoginAsync(LoginUser command)
+    {
+        var appUser = await _userManager.FindByEmailAsync(command.Email);
+        
+        if (appUser is null) throw new RequestException("Provided user don't exist. Please make a register.");
+        await _signInManager.SignOutAsync();
+        
+        var result = await _signInManager.PasswordSignInAsync(appUser, command.Password, command.Remember, false);
+
+        if (!result.Succeeded) throw new PasswordException("Provided credentials were incorrect or user don't exist.");
+
+        return IdentityResult.Success;
+    }
+
+    public async Task DeleteUserAsync(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null)
-            return false;
+            throw new RequestException("User not found or don't exist.");
 
         await _userManager.DeleteAsync(user);
+    }
+    
+    public async Task<bool> Logout()
+    {
+        await _signInManager.SignOutAsync();
         return true;
     }
 }

@@ -1,6 +1,7 @@
-﻿using Auth.Core.DTO.RoleDto;
-using Auth.Core.Interfaces;
+﻿using Auth.Core.Interfaces;
 using Auth.Core.Models;
+using Auth.Core.Utils.Exceptions;
+using Auth.Core.Utils.Messages;
 using Microsoft.AspNetCore.Identity;
 
 namespace Auth.Core.Services;
@@ -16,50 +17,37 @@ public class RoleServices : IRoleServices
         _userManager = userManager;
     }
 
-    public async Task<bool> CreateRoleAsync(CreateRole model)
-    {
-        var role = new IdentityRole(model.RoleName);
-        var result = await _roleManager.CreateAsync(role);
-        
-        if (!result.Succeeded)
-            return false;
-
-        return true;
-    }
-    
-    public async Task<bool> DeleteRoleAsync(string roleId)
-    {
-        var role = await _roleManager.FindByIdAsync(roleId);
-        if (role is null)
-            return false;
-
-        var result = await _roleManager.DeleteAsync(role);
-        if (!result.Succeeded)
-            return false;
-
-        return true;
-    }
-
-    public async Task<bool> ManageUserInRole(string username, string role)
+    public async Task<IdentityResult> ManageUserInRole(string username, string role)
     {
         var currentUser = await _userManager.FindByNameAsync(username);
         if (currentUser is null)
-            return false;
+            throw new RequestException("User to associated to a role was not found or don't exist.");
         
         var fetched = await _userManager.IsInRoleAsync(currentUser, role);
         if (fetched)
-            return true;
+            return IdentityResult.Failed(new IdentityErrorDescriber().UserAlreadyInRole(nameof(role)));
 
         var roleExist = await _roleManager.FindByNameAsync(role);
         if (roleExist is null)
         {
-            await CreateRoleAsync(new CreateRole { RoleName = role });
+            await CreateRoleAsync(role);
         }
 
         var res = await _userManager.AddToRoleAsync(currentUser, role);
         if (!res.Succeeded)
-            return false;
+            throw new RoleException(IdentityMessage.IdentityMessageBuilder(res.Errors));
 
-        return true;
+        return res;
+    }
+    
+    private async Task<IdentityResult> CreateRoleAsync(string roleName)
+    {
+        var role = new IdentityRole(roleName);
+        var result = await _roleManager.CreateAsync(role);
+
+        if (!result.Succeeded)
+            throw new RoleException(IdentityMessage.IdentityMessageBuilder(result.Errors));
+
+        return result;
     }
 }
