@@ -1,5 +1,7 @@
-﻿using Auth.Core.DTO.AuthDto;
+﻿using Auth.API.Utils;
+using Auth.Core.DTO.AuthDto;
 using Auth.Core.Interfaces;
+using Auth.Core.Utils.Constants;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.API.Controllers;
@@ -9,42 +11,36 @@ namespace Auth.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthServices _authServices;
-
-    public AuthController(IAuthServices authServices)
-    {
-        _authServices = authServices;
-    }
+    public AuthController(IAuthServices authServices) => _authServices = authServices;
 
     [HttpPost]
+    [AuthorizeRoles(Roles.Administrator, Roles.Developer)]
     [Route("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateUser user)
+    public async Task<IActionResult> Create([FromBody] CreateUser command)
     {
-        var newUser = await _authServices.CreateUserAsync(user);
-        if (newUser is null)
-            return BadRequest();
+        var serviceResponse = await _authServices.CreateUserAsync(command);
+        var apiResponse = ApiResponse<ReadUser>.Success(serviceResponse, "User registered successfully.");
         
-        return Ok(newUser);
+        return Ok(apiResponse);
     }
 
     [HttpPut]
+    [AuthorizeRoles(Roles.Administrator, Roles.Developer)]
     [Route("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateUser updateUser)
+    public async Task<IActionResult> Update([FromBody] UpdateUser command)
     {
-        var updatedUser = await _authServices.UpdateUserAsync(updateUser);
-        if (updatedUser is null)
-            return BadRequest();
+        var serviceResponse = await _authServices.UpdateUserAsync(command);
+        var apiResponse = ApiResponse<ReadUser>.Success(serviceResponse, "User updated successfully.");
 
-        return Ok(updatedUser);
+        return Ok(apiResponse);
     }
 
     [HttpDelete]
+    [AuthorizeRoles(Roles.Administrator, Roles.Developer)]
     [Route("Delete")]
     public async Task<IActionResult> Delete(string email)
     {
-        var res = await _authServices.DeleteUserAsync(email);
-        if (res is false)
-            return BadRequest();
-
+        await _authServices.DeleteUserAsync(email);
         return NoContent();
     }
 }
