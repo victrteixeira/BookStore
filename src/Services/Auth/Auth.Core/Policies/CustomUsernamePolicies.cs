@@ -10,14 +10,19 @@ public class CustomUserPolicies : UserValidator<AppUser>
         IdentityResult result = await base.ValidateAsync(manager, user);
         List<IdentityError> errors = result.Succeeded ? new List<IdentityError>() : result.Errors.ToList();
 
-        var emailMatch = Array.Exists(EmailHosters, domain => user.Email.ToLower().EndsWith(domain));
-        if (!emailMatch)
+        var domainIsValid = Array.Exists(EmailHosters, domain => user.Email.ToLower().EndsWith(domain));
+        if (!domainIsValid)
         {
-            errors.Add(new IdentityError { Description = "This email domain isn't allowed"});
+            errors.Add(new CustomIdentityErrorDescriber().EmailDomainNotAllowed());
         }
 
+        if (user.Age > 90)
+        {
+            errors.Add(new CustomIdentityErrorDescriber().AgeNotTrusted());
+        }
+
+
         return errors.Count == 0 ? IdentityResult.Success : IdentityResult.Failed(errors.ToArray());
-        // TODO > Logger isn't returning a proper message
     }
 
     private string[] EmailHosters { get; } =
