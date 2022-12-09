@@ -1,3 +1,4 @@
+using Auth.API.Middleware;
 using Auth.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,5 +23,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.Run();
