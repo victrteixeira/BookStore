@@ -3,6 +3,7 @@ using Auth.Core.Interfaces;
 using Auth.Core.Models;
 using Auth.Core.Policies;
 using Auth.Core.Services;
+using Auth.Core.Utils.AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ public static class Container
             opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
         services.AddIdentity<AppUser, IdentityRole>()
+            .AddErrorDescriber<CustomIdentityErrorDescriber>()
             .AddEntityFrameworkStores<AuthDbContext>()
             .AddDefaultTokenProviders();
         
@@ -47,8 +49,9 @@ public static class Container
         services.AddTransient<IUserValidator<AppUser>, CustomUserPolicies>();
 
         services.AddScoped<IAuthServices, AuthServices>();
-        services.AddScoped<IAccountServices, AccountServices>();
         services.AddScoped<IRoleServices, RoleServices>();
+
+        services.AddAutoMapper(typeof(AuthMapper));
         
         return services;
     }
